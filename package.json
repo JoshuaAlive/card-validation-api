@@ -2,10 +2,10 @@
   "name": "card-validation-api",
   "version": "1.0.0",
   "description": "Card Number Validation Endpoint",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc"
   },
   "dependencies": {
