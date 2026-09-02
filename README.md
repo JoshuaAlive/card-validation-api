@@ -109,7 +109,7 @@ Accepts a card number and returns whether it is valid or not based on the Luhn a
 **Request Body**
 ```json
 {
-  "cardNumber": "5061151002469035430"
+  "cardNumber": "4111111111111111"
 }
 ```
 
