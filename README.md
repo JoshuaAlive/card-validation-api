@@ -56,28 +56,32 @@ card-validation-api/
 │
 ├── src/
 │   ├── controllers/
-│   │   └── card.controller.ts   # Handles HTTP requests and responses
+│   │   └── card.controller.ts        # Handles HTTP requests and responses
+│   │
+│   ├── middleware/
+│   │   └── errorHandler.ts           # Global error handler middleware
 │   │
 │   ├── routes/
-│   │   └── card.routes.ts       # Defines API routes
+│   │   └── card.routes.ts            # Defines API routes
 │   │
 │   ├── services/
 │   │   └── card-validation.service.ts  # Bridge between controller and logic
 │   │
 │   ├── utils/
-│   │   └── luhn.ts              # Pure Luhn algorithm implementation
+│   │   └── luhn.ts                   # Pure Luhn algorithm implementation
 │   │
-│   ├── app.ts                   # Express app setup and middleware
-│   └── server.ts                # Entry point - starts the server
+│   ├── app.ts                        # Express app setup and middleware
+│   └── server.ts                     # Entry point - starts the server
 │
 ├── tests/
-│   └── luhn.test.ts             # Unit tests for the Luhn algorithm
+│   └── luhn.test.ts                  # Unit tests for the Luhn algorithm
 │
-├── .env                         # Environment variables (not committed)
+├── .env                              # Environment variables (not committed)
 ├── .gitignore
-├── jest.config.ts               # Jest configuration
+├── jest.config.ts                    # Jest configuration
 ├── package.json
-├── tsconfig.json
+├── tsconfig.json                     # TypeScript config for production build
+├── tsconfig.test.json                # TypeScript config for tests
 └── README.md
 ```
 
@@ -136,6 +140,14 @@ Accepts a card number and returns whether it is valid or not based on the Luhn a
 }
 ```
 
+**Error Response — Malformed JSON** `400 Bad Request`
+```json
+{
+  "error": "Bad Request",
+  "message": "Invalid JSON format in request body."
+}
+```
+
 ---
 
 ## Running Tests
@@ -181,3 +193,9 @@ Named exports enforce a consistent import name across all files, making the code
 
 ### Why strict: true in tsconfig?
 Strict mode enables TypeScript's strictest type checks, catching potential bugs at compile time rather than at runtime. This leads to safer, more reliable code.
+
+### Why a dedicated middleware folder for the error handler?
+Placing the error handler in `src/middleware/errorHandler.ts` follows the **Single Responsibility Principle** — each file does exactly one job. Keeping it out of `app.ts` means `app.ts` stays clean and focused purely on wiring the application together.
+
+### Why two tsconfig files?
+`tsconfig.json` is used for the production build (`npm run build`) and only compiles files inside `src/`. `tsconfig.test.json` extends it and also includes the `tests/` folder, allowing Jest to compile and run test files without interfering with the production build.
